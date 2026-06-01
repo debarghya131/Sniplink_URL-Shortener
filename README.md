@@ -4,7 +4,7 @@ SnipLink is a simple URL shortener built with Next.js and MongoDB. It lets users
 
 ## 🌐 Live Demo
 
-https://sniplink.debarghya.org
+https://sniplink.debarghya.org   👈
 
 ## 💡 Motivation
 
