@@ -1,6 +1,7 @@
 "use client"
 
 import React from 'react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
@@ -14,16 +15,23 @@ const Navbar = () => {
   }
 
   return (
-    <nav className='min-h-16 bg-black flex flex-wrap justify-between gap-3 px-4 py-3 items-center text-yellow-300'>
-      <div className="logo text-xl font-bold sm:text-2xl"> 
-        <Link href="/">SnipLink</Link>
+    <nav className='min-h-16 bg-black flex flex-wrap justify-between gap-2 px-3 py-3 items-center text-yellow-300 sm:gap-3 sm:px-4'>
+      <div className="logo text-lg font-bold sm:text-2xl">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/web-tab-logo.webp"
+            alt="SnipLink logo"
+            width={36}
+            height={36}
+            className="h-8 w-8 rounded-full sm:h-9 sm:w-9"
+            priority
+          />
+          <span>SnipLink</span>
+        </Link>
       </div>
-      <ul className='flex flex-wrap justify-end gap-2 text-sm font-medium sm:gap-4 sm:text-base items-center'>
+      <ul className='flex flex-wrap justify-end gap-3 text-sm font-medium sm:gap-4 sm:text-base items-center'>
         <li><Link href="/" className={linkClass("/")}>Home</Link></li>
         <li><Link href="/shorten" className={linkClass("/shorten")}>Shorten</Link></li>
-        <li className='flex gap-3'>
-          <Link href="/shorten" className='bg-yellow-400 text-black rounded-lg shadow-lg px-3 py-1.5 font-bold hover:bg-yellow-300'>Try Now</Link>
-        </li>
       </ul>
     </nav>
   )

@@ -97,7 +97,6 @@ sniplink/
 ├── lib/
 │   └── mongodb.js               # MongoDB connection helper
 ├── public/
-│   ├── vector.webp              # Homepage illustration
 │   ├── web-tab-logo.webp        # Browser tab icon
 │   └── *.webp                   # Project images/screenshots
 ├── SnipLink.postman_collection.json

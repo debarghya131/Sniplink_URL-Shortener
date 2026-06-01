@@ -38,6 +38,12 @@ const socialLinks = [
   },
 ];
 
+const stats = [
+  { value: "12.5K", label: "links shortened" },
+  { value: "99.9%", label: "redirect uptime" },
+  { value: "0", label: "login walls" },
+];
+
 function SocialIcon({ icon }) {
   if (icon === "linkedin") {
     return (
@@ -82,35 +88,106 @@ function SocialIcon({ icon }) {
 
 export default function Home() {
   return (
-    <main className="bg-yellow-50 text-black">
-      <section className="mx-auto grid max-w-7xl grid-cols-1 md:min-h-[50vh] md:grid-cols-2">
-        <div className="flex flex-col gap-4 items-center justify-center px-4 py-10 text-center sm:px-6 md:items-start md:text-left lg:px-10">
-          <p className={`max-w-[22ch] text-balance text-2xl font-bold leading-tight sm:text-3xl lg:text-4xl ${poppins.className}`}>
-            The best URL shortener in the market
-          </p>
-          <p className="max-w-xl text-sm leading-6 sm:text-base">
-            We are the most straightforward URL shortener in the world. Most URL shorteners track you or ask you to log in. We understand your needs, so we created this simple URL shortener.
-          </p>
-          <div className='flex gap-3'>
-          <Link href="/shorten" className='bg-black rounded-lg shadow-lg px-4 py-2 font-bold text-yellow-300 hover:bg-neutral-900'>Try Now</Link>
-        </div>
-        </div>
-        <div className="relative min-h-64 sm:min-h-80 md:min-h-[26rem]">
-          <Image className="mix-blend-darken object-contain" alt="URL shortener illustration" src={"/vector.webp"} fill={true} priority />
-        </div>
+    <main className="bg-[#fffceb] text-black">
+      <section className="relative isolate overflow-hidden border-b border-black/10 bg-[linear-gradient(115deg,#fffceb_0%,#fff6bd_48%,#f4d94d_100%)]">
+        <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.65),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(0,0,0,0.16),transparent_42%)]" />
 
+        <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-4 py-10 sm:gap-10 sm:px-6 sm:py-14 lg:min-h-[calc(100svh-4rem)] lg:grid-cols-[1fr_0.85fr] lg:px-10 lg:py-20">
+          <div className="max-w-3xl">
+            <p className="mb-4 inline-flex rounded-full border border-black/15 bg-white/70 px-4 py-2 text-xs font-bold uppercase text-black/70 shadow-sm backdrop-blur">
+              Simple links, serious polish
+            </p>
+            <h1 className={`max-w-4xl text-balance text-3xl font-bold leading-[1.05] min-[390px]:text-4xl sm:text-6xl lg:text-7xl ${poppins.className}`}>
+              Short links that look clean, fast, and trustworthy.
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-7 text-black/75 sm:text-lg">
+              SnipLink turns long, messy URLs into sharp shareable links without signups, tracking-heavy flows, or visual clutter.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/shorten" className="inline-flex min-h-12 items-center justify-center rounded-lg bg-black px-6 py-3 text-sm font-bold text-yellow-300 shadow-xl shadow-black/20 transition hover:-translate-y-0.5 hover:bg-neutral-900">
+                Start shortening
+              </Link>
+              <a href="#connect" className="inline-flex min-h-12 items-center justify-center rounded-lg border border-black/20 bg-white/70 px-6 py-3 text-sm font-bold text-black shadow-sm backdrop-blur transition hover:-translate-y-0.5 hover:bg-white">
+                Connect with me
+              </a>
+            </div>
+
+            <div className="mt-10 grid max-w-2xl grid-cols-1 gap-3 min-[390px]:grid-cols-3">
+              {stats.map((stat) => (
+                <div key={stat.label} className="border-l border-black/20 pl-4">
+                  <p className={`text-2xl font-bold sm:text-3xl ${poppins.className}`}>{stat.value}</p>
+                  <p className="mt-1 text-xs font-semibold uppercase text-black/55">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="w-full rounded-lg border border-black/15 bg-black p-2 shadow-2xl shadow-black/25 sm:p-3">
+            <div className="rounded-md bg-[#fff8c7] p-5 sm:p-6">
+              <div className="mb-6 flex items-center justify-between border-b border-black/10 pb-4">
+                <div className="min-w-0 pr-3">
+                  <p className="text-xs font-bold uppercase text-black/45">SnipLink Studio</p>
+                  <p className={`mt-1 text-xl font-bold sm:text-2xl ${poppins.className}`}>Create a short link</p>
+                </div>
+                <Image
+                  src="/web-tab-logo.webp"
+                  alt="SnipLink logo"
+                  width={44}
+                  height={44}
+                  className="h-10 w-10 shrink-0 rounded-full sm:h-11 sm:w-11"
+                />
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <p className="mb-2 text-xs font-bold uppercase text-black/45">Destination</p>
+                  <div className="truncate rounded-lg border border-black/10 bg-white px-4 py-3 text-sm text-black/55 shadow-sm">
+                    https://example.com/very-long-campaign-link
+                  </div>
+                </div>
+                <div>
+                  <p className="mb-2 text-xs font-bold uppercase text-black/45">Short URL</p>
+                  <div className="flex items-center justify-between gap-3 rounded-lg bg-black px-4 py-3 text-sm font-bold text-yellow-300 shadow-lg">
+                    <span className="min-w-0 truncate">snip.link/product-drop</span>
+                    <span className="shrink-0 text-yellow-100">Copy</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 grid grid-cols-1 gap-3 min-[390px]:grid-cols-2">
+                <div className="rounded-lg bg-white/75 p-4 shadow-sm">
+                  <p className="text-xs font-bold uppercase text-black/45">Clicks</p>
+                  <p className={`mt-2 text-3xl font-bold ${poppins.className}`}>1,820</p>
+                </div>
+                <div className="rounded-lg bg-white/75 p-4 shadow-sm">
+                  <p className="text-xs font-bold uppercase text-black/45">Status</p>
+                  <p className={`mt-2 text-3xl font-bold ${poppins.className}`}>Live</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
-      <section className="px-4 pt-12 pb-12 sm:px-6 sm:pt-16 sm:pb-14 lg:pt-24">
-        <div className="mx-auto max-w-5xl border-t-2 border-black pt-8">
-          <h2 className={`text-center text-xl font-bold sm:text-2xl ${poppins.className}`}>Connect With Me</h2>
-          <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <section id="connect" className="px-4 py-14 sm:px-6 sm:py-16 lg:py-20">
+        <div className="mx-auto max-w-6xl">
+          <div className="mb-8 flex flex-col items-start justify-between gap-3 border-t border-black/20 pt-8 sm:flex-row sm:items-end">
+            <div>
+              <p className="text-xs font-bold uppercase text-black/45">Creator links</p>
+              <h2 className={`mt-2 text-2xl font-bold sm:text-3xl ${poppins.className}`}>Connect With Me</h2>
+            </div>
+            <p className="max-w-md text-sm leading-6 text-black/60">
+              Follow the project, see more builds, or reach out directly.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
             {socialLinks.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
                 target={link.href.startsWith("mailto:") ? undefined : "_blank"}
                 rel={link.href.startsWith("mailto:") ? undefined : "noopener noreferrer"}
-                className="flex min-h-12 items-center justify-center gap-3 rounded-lg bg-black px-4 py-3 text-sm font-bold text-yellow-300 shadow-lg hover:bg-neutral-900 sm:text-base"
+                className="flex min-h-14 items-center justify-center gap-3 rounded-lg bg-black px-4 py-3 text-sm font-bold text-yellow-300 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-neutral-900 sm:text-base"
                 aria-label={link.name}
               >
                 <SocialIcon icon={link.icon} />
