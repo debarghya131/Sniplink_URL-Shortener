@@ -14,6 +14,7 @@ SnipLink was built to provide a clean, fast, and straightforward way to shorten 
 
 - Create custom short URLs
 - Redirect short links to the original URL
+- Persistent website visitor counter
 - Duplicate short URL protection
 - MongoDB-powered link storage
 - Responsive yellow-and-black UI
@@ -121,6 +122,17 @@ Document Structure:
   _id: ObjectId,
   url: String,
   shorturl: String
+}
+```
+
+The `metrics` collection stores the persistent website visitor count. A browser
+is counted once using a one-year HTTP-only cookie, so refreshing does not
+increase the counter.
+
+```text
+{
+  _id: "site-visitors",
+  count: Number
 }
 ```
 
@@ -264,7 +276,6 @@ The project was tested with:
 - Add user authentication and personal dashboards
 - Add automatic random short URL generation
 - Add link expiration support
-- Add copy-to-clipboard functionality
 - Add custom domain support
 
 ## 📚 Learnings

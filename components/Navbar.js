@@ -4,6 +4,7 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import ViewCounter from '@/components/ViewCounter'
 
 const Navbar = () => {
   const pathname = usePathname()
@@ -16,7 +17,7 @@ const Navbar = () => {
 
   return (
     <nav className='min-h-16 bg-black flex flex-wrap justify-between gap-2 px-3 py-3 items-center text-yellow-300 sm:gap-3 sm:px-4'>
-      <div className="logo text-lg font-bold sm:text-2xl">
+      <div className="logo flex items-center gap-3 text-lg font-bold sm:text-2xl">
         <Link href="/" className="flex items-center gap-2">
           <Image
             src="/web-tab-logo.webp"
@@ -28,6 +29,12 @@ const Navbar = () => {
           />
           <span>SnipLink</span>
         </Link>
+        <span
+          className='rounded-full border border-yellow-300/35 bg-yellow-300/10 px-3 py-1.5 text-xs font-bold text-yellow-100 sm:text-sm'
+          aria-label='Total website visitors'
+        >
+          <ViewCounter /> visitors
+        </span>
       </div>
       <ul className='flex flex-wrap justify-end gap-3 text-sm font-medium sm:gap-4 sm:text-base items-center'>
         <li><Link href="/" className={linkClass("/")}>Home</Link></li>
