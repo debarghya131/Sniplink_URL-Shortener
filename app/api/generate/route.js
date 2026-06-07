@@ -2,19 +2,20 @@
 import clientPromise from "@/lib/mongodb"
 
 const slugPattern = /^[a-zA-Z0-9-]+$/
+const maxAliasAttempts = 100
 
 export async function POST(request) {
 
     try {
         const body = await request.json() 
         const url = body.url?.trim()
-        const shorturl = body.shorturl?.trim().toLowerCase()
+        const requestedShorturl = body.shorturl?.trim().toLowerCase()
 
-        if (!url || !shorturl) {
+        if (!url || !requestedShorturl) {
             return Response.json({success: false, error: true, message: 'URL and short URL are required' }, { status: 400 })
         }
 
-        if (!slugPattern.test(shorturl)) {
+        if (!slugPattern.test(requestedShorturl)) {
             return Response.json({success: false, error: true, message: 'Short URL can only contain letters, numbers, and hyphens' }, { status: 400 })
         }
 
@@ -31,18 +32,58 @@ export async function POST(request) {
         const db = client.db("sniplink")
         const collection = db.collection("url")
 
-        // Check if the short url exists
-        const doc = await collection.findOne({shorturl})
-        if(doc){
-            return Response.json({success: false, error: true,  message: 'URL already exists! Try Another' }, { status: 409 })
-        }
+        await collection.createIndex({ shorturl: 1 }, { unique: true })
 
-        await collection.insertOne({
+        const existingLink = await collection.findOne({
             url,
-            shorturl
+            $or: [
+                { requestedShorturl },
+                { shorturl: new RegExp(`^${requestedShorturl}(?:-[0-9]+)?$`) }
+            ]
         })
 
-        return Response.json({success: true, error: false, shorturl, message: 'URL Generated Successfully' })
+        if (existingLink) {
+            return Response.json({
+                success: true,
+                error: false,
+                shorturl: existingLink.shorturl,
+                message: 'This short link already exists, so we reused it'
+            })
+        }
+
+        for (let attempt = 0; attempt < maxAliasAttempts; attempt += 1) {
+            const shorturl = attempt === 0
+                ? requestedShorturl
+                : `${requestedShorturl}-${attempt + 1}`
+
+            try {
+                await collection.insertOne({
+                    url,
+                    shorturl,
+                    requestedShorturl
+                })
+
+                const usedAlternative = shorturl !== requestedShorturl
+                return Response.json({
+                    success: true,
+                    error: false,
+                    shorturl,
+                    message: usedAlternative
+                        ? `"${requestedShorturl}" was taken, so we created "${shorturl}" instead`
+                        : 'URL Generated Successfully'
+                })
+            } catch (error) {
+                if (error?.code !== 11000) {
+                    throw error
+                }
+            }
+        }
+
+        return Response.json({
+            success: false,
+            error: true,
+            message: 'Could not find an available short URL. Please choose another alias.'
+        }, { status: 409 })
     } catch (error) {
         console.error(error)
         const message = process.env.NODE_ENV === "development"
